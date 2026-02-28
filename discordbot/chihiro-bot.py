@@ -1,3 +1,5 @@
+from enum import member
+
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -252,7 +254,7 @@ async def eight_ball(interaction: discord.Interaction, question: str):
         "Outlook not so good.",
         "Very doubtful."
     ]
-    await interaction.response.send_message(f"{question} \n                                            🎱 {random.choice(eight_ball_responses)}")
+    await interaction.response.send_message(f"{interaction.user.mention} asked: {question} \n🎱 {random.choice(eight_ball_responses)}")
 
 # _____________________________________________________________________________________________
 # End of commands
