@@ -33,7 +33,23 @@ async def gooi6(interaction: discord.Interaction):
     await interaction.response.send_message(str(random.randint(1, 6)))
 
 # Commands
-# ______________________________________________________________________________________________
+# _______________________________________________________________________________________________
+
+@bot.tree.command(name="I love you", description="Tell Fujisaki you love her!")
+async def i_love_you(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    love_responses = [
+        "I love you too! :3",
+        "*blushes* I love you! :3",
+        "Aww, I love you! :3",
+        "*hugs* I love you! :3",
+    ]
+    await interaction.response.send_message(random.choice(love_responses))
 
 @bot.tree.command(name="dance", description="Make Fujisaki dance!")
 async def dance(interaction: discord.Interaction):
