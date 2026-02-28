@@ -183,6 +183,23 @@ async def greet(interaction: discord.Interaction, target: discord.Member):
     ]
     await interaction.response.send_message(random.choice(greet_responses))
 
+
+@bot.tree.command(name="wruff", description="Make Fujisaki wruff!")
+async def wruff(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction.channel_id):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    wruff_responses = [
+        "Wruff! :3",
+        "Fujisaki wruffs at you! :3",
+        "*wruffs softly* :3",
+        "Wruff wruff! :3",
+    ]
+    await interaction.response.send_message(random.choice(wruff_responses))
+
 @bot.tree.command(name="sing", description="Make Fujisaki sing a song!")
 async def sing(interaction: discord.Interaction):
     if not is_allowed_channel(interaction.channel_id):
