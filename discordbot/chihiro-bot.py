@@ -35,7 +35,7 @@ async def gooi6(interaction: discord.Interaction):
 # Commands
 # _______________________________________________________________________________________________
 
-@bot.tree.command(name="Ily", description="Tell Fujisaki you love her!")
+@bot.tree.command(name="ily", description="Tell Fujisaki you love her!")
 async def i_love_you(interaction: discord.Interaction):
     if not is_allowed_channel(interaction):
         await interaction.response.send_message(
