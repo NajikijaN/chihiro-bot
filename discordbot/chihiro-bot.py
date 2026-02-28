@@ -1,4 +1,5 @@
 from enum import member
+from math import e
 
 import discord
 from discord.ext import commands
@@ -248,6 +249,12 @@ async def help(interaction: discord.Interaction):
     embed.add_field(name="/greet", value="Make Fujisaki greet someone!", inline=False)
     embed.add_field(name="/wruff", value="Make Fujisaki wruff!", inline=False)
     embed.add_field(name="/dance", value="Make Fujisaki dance!", inline=False)
+    embed.add_field(name="/pat", value="Pat Fujisaki on the head!", inline=False)
+    embed.add_field(name="/cuddle", value="Cuddle with Fujisaki!", inline=False)
+    # embed.add_field(name="/profile_picture", value="Show the mentions profile picture!", inline=False)
+    embed.add_field(name="/ily", value="Tell Fujisaki you love her!", inline=False)
+    embed.add_field(name="/chihiro", value="Show a cute picture of Fujisaki Chihiro!", inline=False)
+    embed.add_field(name="/hug", value="Give Fujisaki a hug!", inline=False)
 
     embed.set_footer(text="Made with <3 by Kiki :3")
 
