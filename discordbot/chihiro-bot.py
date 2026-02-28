@@ -35,6 +35,39 @@ async def gooi6(interaction: discord.Interaction):
 # Commands
 # _______________________________________________________________________________________________
 
+@bot.tree.command(name="hai", description="Say hi to Fujisaki Chihiro!")
+async def say_hi(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    greetings = [
+        "Hai! :3",
+        "Hello there! :3",
+        "Konnichiwa~ :3",
+        "Yoroshiku onegaishimasu~, how may I assist you? :3",
+        "Hi hi! How can I be of service? :3",
+        "Hiiii~, how can I help you? :3",
+        "Hii, how can I help you? :3"
+    ]
+    await interaction.response.send_message(random.choice(greetings))
+
+@bot.tree.command(name="chihiro", description="Show a cute picture of Fujisaki Chihiro!")
+async def chihiro(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    chihiro_images = [
+        "botbanner.jpg",
+        "botpfp.jpg"
+    ]
+    await interaction.response.send_message(random.choice(chihiro_images))
+
 @bot.tree.command(name="ily", description="Tell Fujisaki you love her!")
 async def i_love_you(interaction: discord.Interaction):
     if not is_allowed_channel(interaction):
