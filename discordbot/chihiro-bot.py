@@ -240,7 +240,6 @@ async def eight_ball(interaction: discord.Interaction, question: str):
         "You may rely on it.",
         "As I see it, yes.",
         "Most likely.",
-        "Outlook good.",
         "Yes.",
         "Signs point to yes.",
         "Reply hazy, try again.",
@@ -254,7 +253,7 @@ async def eight_ball(interaction: discord.Interaction, question: str):
         "Outlook not so good.",
         "Very doubtful."
     ]
-    await interaction.response.send_message(f"{interaction.user.mention} asked: {question} \n🎱 {random.choice(eight_ball_responses)}")
+    await interaction.response.send_message(f"{interaction.user.mention} asked: {question} \n\n🎱 {random.choice(eight_ball_responses)}")
 
 # _____________________________________________________________________________________________
 # End of commands
