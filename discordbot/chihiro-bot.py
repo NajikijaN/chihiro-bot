@@ -18,10 +18,13 @@ ALLOWED_CHANNEL_IDS = {
 }
 GUILD_ID = int(os.getenv("GUILD_ID", "0"))
 
-def is_allowed_channel(channel_id: int) -> bool:
+def is_allowed_channel(interaction: discord.Interaction) -> bool:
+    # Always allow DMs
+    if interaction.guild is None:
+        return True
     if not ALLOWED_CHANNEL_IDS:
         return True
-    return channel_id in ALLOWED_CHANNEL_IDS
+    return interaction.channel_id in ALLOWED_CHANNEL_IDS
 
 def allowed_channels_text() -> str:
     return ", ".join(f"<#{channel_id}>" for channel_id in sorted(ALLOWED_CHANNEL_IDS))
@@ -32,10 +35,28 @@ async def gooi6(interaction: discord.Interaction):
 # Commands
 # ______________________________________________________________________________________________
 
+@bot.tree.command(name="dance", description="Make Fujisaki dance!")
+async def dance(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    dance_responses = [
+        "Fujisaki starts dancing! :3",
+        "*Fujisaki does a little jig* :3",
+        "Fujisaki busts out some smooth moves! :3",
+        "*Fujisaki moonwalks* :3",
+        "Fujisaki spins around and strikes a pose! :3",
+        "*Fujisaki does the robot* Beep boop! :3",
+        "Fujisaki shimmies and shakes! :3",
+    ]
+    await interaction.response.send_message(random.choice(dance_responses))
 
 @bot.tree.command(name="roll", description="Throw a dice and see what you get!")
 async def roll(interaction: discord.Interaction):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -45,7 +66,7 @@ async def roll(interaction: discord.Interaction):
 
 @bot.tree.command(name="meow", description="Make Fujisaki meow!")
 async def meow(interaction: discord.Interaction):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -66,7 +87,7 @@ async def meow(interaction: discord.Interaction):
 
 @bot.tree.command(name="ping", description="Speel ping pong met Fujisaki!")
 async def ping(interaction: discord.Interaction):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -85,7 +106,7 @@ async def ping(interaction: discord.Interaction):
 
 @bot.tree.command(name="help", description="Show all bot commands.")
 async def help(interaction: discord.Interaction):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -100,6 +121,7 @@ async def help(interaction: discord.Interaction):
 
     embed.add_field(name="/help", value="Show this help message", inline=False)
     embed.add_field(name="/roll", value="Roll a dice!", inline=False)
+    embed.add_field(name="/8ball", value="Ask the magic eight ball a question!", inline=False)
     embed.add_field(name="/meow", value="Make Fujisaki meow :3", inline=False)
     embed.add_field(name="/suggest", value="Post a suggestion with yes/no voting", inline=False)
     embed.add_field(name="/ping", value="Play ping pong with Fujisaki!", inline=False)
@@ -108,7 +130,7 @@ async def help(interaction: discord.Interaction):
     embed.add_field(name="/throw", value="Make Fujisaki throw someone!", inline=False)
     embed.add_field(name="/greet", value="Make Fujisaki greet someone!", inline=False)
     embed.add_field(name="/wruff", value="Make Fujisaki wruff!", inline=False)
-    embed.add_field(name="/eight-ball", value="Ask the magic eight ball a question!", inline=False)
+    embed.add_field(name="/dance", value="Make Fujisaki dance!", inline=False)
 
     embed.set_footer(text="Made with <3 by Kiki :3")
 
@@ -118,7 +140,7 @@ async def help(interaction: discord.Interaction):
 @bot.tree.command(name="throw", description="Make Fujisaki throw someone!")
 @app_commands.describe(target="Mention the person you want Fujisaki to throw")
 async def throw(interaction: discord.Interaction, target: discord.Member):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -138,7 +160,7 @@ async def throw(interaction: discord.Interaction, target: discord.Member):
 @bot.tree.command(name="suggest", description="Post a suggestion with yes/no voting")
 @app_commands.describe(idea="Type your suggestion")
 async def suggest(interaction: discord.Interaction, idea: str):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -160,7 +182,7 @@ async def suggest(interaction: discord.Interaction, idea: str):
 @bot.tree.command(name="say", description="Make Fujisaki say something!")
 @app_commands.describe(text="Type what you want Fujisaki to say")
 async def say(interaction: discord.Interaction, text: str):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -171,7 +193,7 @@ async def say(interaction: discord.Interaction, text: str):
 @bot.tree.command(name="greet", description="Make Fujisaki greet someone!")
 @app_commands.describe(target="Mention the person you want Fujisaki to greet!")
 async def greet(interaction: discord.Interaction, target: discord.Member):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -189,7 +211,7 @@ async def greet(interaction: discord.Interaction, target: discord.Member):
 
 @bot.tree.command(name="wruff", description="Make Fujisaki wruff!")
 async def wruff(interaction: discord.Interaction):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -205,7 +227,7 @@ async def wruff(interaction: discord.Interaction):
 
 @bot.tree.command(name="sing", description="Make Fujisaki sing a song!")
 async def sing(interaction: discord.Interaction):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -223,10 +245,10 @@ async def sing(interaction: discord.Interaction):
     ]
     await interaction.response.send_message(random.choice(sing_responses))
 
-@bot.tree.command(name="eight-ball", description="Ask the magic eight ball a question!")
+@bot.tree.command(name="8ball", description="Ask the magic eight ball a question!")
 @app_commands.describe(question="Type your question for the magic eight ball")
 async def eight_ball(interaction: discord.Interaction, question: str):
-    if not is_allowed_channel(interaction.channel_id):
+    if not is_allowed_channel(interaction):
         await interaction.response.send_message(
             f"Use this command in {allowed_channels_text()}.",
             ephemeral=True
@@ -254,6 +276,8 @@ async def eight_ball(interaction: discord.Interaction, question: str):
         "Very doubtful."
     ]
     await interaction.response.send_message(f"{interaction.user.mention} asked: {question} \n\n🎱 {random.choice(eight_ball_responses)}")
+
+
 
 # _____________________________________________________________________________________________
 # End of commands
