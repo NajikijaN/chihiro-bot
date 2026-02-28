@@ -66,7 +66,9 @@ async def chihiro(interaction: discord.Interaction):
         "botbanner.jpg",
         "botpfp.jpg"
     ]
-    await interaction.response.send_message(random.choice(chihiro_images))
+    _script_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(_script_dir, random.choice(chihiro_images))
+    await interaction.response.send_message(file=discord.File(image_path))
 
 @bot.tree.command(name="ily", description="Tell Fujisaki you love her!")
 async def i_love_you(interaction: discord.Interaction):
