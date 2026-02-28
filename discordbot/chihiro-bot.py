@@ -27,7 +27,11 @@ def allowed_channels_text() -> str:
 async def gooi6(interaction: discord.Interaction):
     await interaction.response.send_message(str(random.randint(1, 6)))
 
-@bot.tree.command(name="roll", description="Gooi een dobbelsteen")
+# Commands
+# ______________________________________________________________________________________________
+
+
+@bot.tree.command(name="roll", description="Throw a dice and see what you get!")
 async def roll(interaction: discord.Interaction):
     if not is_allowed_channel(interaction.channel_id):
         await interaction.response.send_message(
@@ -45,7 +49,17 @@ async def meow(interaction: discord.Interaction):
             ephemeral=True
         )
         return
-    await interaction.response.send_message("Meow! :3")
+    meow_responses = [
+        "Meow! :3",
+        "Mrrrow~ :3",
+        "Nyaa~ :3",
+        "*purrs softly* :3",
+        "Mew mew! :3",
+        "*tilts head* ...meow? :3",
+        "MEOOOW! >:3",
+        "*nuzzles* Meow~ :3",
+    ]
+    await interaction.response.send_message(random.choice(meow_responses))
 
 
 @bot.tree.command(name="ping", description="Speel ping pong met Fujisaki!")
@@ -56,7 +70,16 @@ async def ping(interaction: discord.Interaction):
             ephemeral=True
         )
         return
-    await interaction.response.send_message("Pong! :3")
+    ping_responses = [
+        "Pong! :3",
+        "Pong! ...did I win? :3",
+        "*hits the ball back* Pong! :3",
+        "P-pong! :3",
+        "Pong pong pong! :3",
+        "🏓 Pong! :3",
+        "*swings racket* Pong! :3",
+    ]
+    await interaction.response.send_message(random.choice(ping_responses))
 
 @bot.tree.command(name="help", description="Show all bot commands.")
 async def help(interaction: discord.Interaction):
@@ -73,12 +96,17 @@ async def help(interaction: discord.Interaction):
         color=discord.Color.blue()
     )
 
+    embed.add_field(name="/help", value="Show this help message", inline=False)
     embed.add_field(name="/roll", value="Roll a dice!", inline=False)
     embed.add_field(name="/meow", value="Make Fujisaki meow :3", inline=False)
     embed.add_field(name="/suggest", value="Post a suggestion with yes/no voting", inline=False)
     embed.add_field(name="/ping", value="Play ping pong with Fujisaki!", inline=False)
     embed.add_field(name="/sing", value="Make Fujisaki sing a song!", inline=False)
     embed.add_field(name="/say", value="Make Fujisaki say something!", inline=False)
+    embed.add_field(name="/throw", value="Make Fujisaki throw someone!", inline=False)
+    embed.add_field(name="/greet", value="Make Fujisaki greet someone!", inline=False)
+
+    embed.set_footer(text="Made with <3 by Kiki :3")
 
     await interaction.response.send_message(embed=embed)
 
@@ -92,7 +120,16 @@ async def throw(interaction: discord.Interaction, target: discord.Member):
             ephemeral=True
         )
         return
-    await interaction.response.send_message(f"{interaction.user.mention} throws {target.mention} into the air! :3")
+    throw_responses = [
+        f"{interaction.user.mention} throws {target.mention} into the air! :3",
+        f"{interaction.user.mention} yeets {target.mention} into orbit! :3",
+        f"{interaction.user.mention} gently tosses {target.mention} into a pile of pillows! :3",
+        f"{interaction.user.mention} launches {target.mention} into the stratosphere! :3",
+        f"{target.mention} got thrown by {interaction.user.mention}! Ouchie! :3",
+        f"{interaction.user.mention} picks up {target.mention} and spins them around! Wheee~ :3",
+        f"{interaction.user.mention} tried to throw {target.mention}... but {target.mention} was too heavy! :3",
+    ]
+    await interaction.response.send_message(random.choice(throw_responses))
 
 @bot.tree.command(name="suggest", description="Post a suggestion with yes/no voting")
 @app_commands.describe(idea="Type your suggestion")
@@ -127,6 +164,25 @@ async def say(interaction: discord.Interaction, text: str):
         return
     await interaction.response.send_message(text)
 
+@bot.tree.command(name="greet", description="Make Fujisaki greet someone!")
+@app_commands.describe(target="Mention the person you want Fujisaki to greet!")
+async def greet(interaction: discord.Interaction, target: discord.Member):
+    if not is_allowed_channel(interaction.channel_id):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    greet_responses = [
+        f"Fujisaki greets {target.mention}!",
+        f"Fujisaki says: Hello {target.mention}!",
+        f"Fujisaki says: Haiiii {target.mention}!",
+        f"Fujisaki waves at {target.mention} and says: Konnichiwa~!",
+        f"Fujisaki bows to {target.mention} and says: Yoroshiku onegaishimasu~!",
+        f"Fujisaki gives {target.mention} a big smile and says: Nice to meet you, {target.mention}!",
+    ]
+    await interaction.response.send_message(random.choice(greet_responses))
+
 @bot.tree.command(name="sing", description="Make Fujisaki sing a song!")
 async def sing(interaction: discord.Interaction):
     if not is_allowed_channel(interaction.channel_id):
@@ -135,7 +191,20 @@ async def sing(interaction: discord.Interaction):
             ephemeral=True
         )
         return
-    await interaction.response.send_message("Lalalalala :3")
+    sing_responses = [
+        "Lalalalala~ :3",
+        "Fujisaki is singing a song! :3",
+        "🎵 Do re mi fa sol la ti do~ :3",
+        "*hums a gentle melody* :3",
+        "🎶 Twinkle twinkle little star~ :3",
+        "*grabs microphone* AAAAAAA— I mean... la la la~ :3",
+        "*singing softly* You are my sunshine~ :3",
+        "🎤 *clears throat* ...meow meow meow meow~ :3",
+    ]
+    await interaction.response.send_message(random.choice(sing_responses))
+
+# _____________________________________________________________________________________________
+# End of commands
 
 @bot.event
 async def on_ready():
@@ -157,10 +226,12 @@ async def on_command_error(ctx: commands.Context, error: commands.CommandError):
         return
     raise error
 
-with open("token.txt", "r", encoding="utf-8") as token_file:
+import os as _os
+_token_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "token.txt")
+with open(_token_path, "r", encoding="utf-8") as token_file:
     DISCORD_TOKEN = token_file.read().strip()
 
 if not DISCORD_TOKEN:
-    raise ValueError("token.txt is leeg. Zet je Discord bot token in token.txt")
+    raise ValueError("token.txt is leeg. Zet je Discord bot token in .token.txt")
 
 bot.run(DISCORD_TOKEN)
