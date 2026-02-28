@@ -105,6 +105,8 @@ async def help(interaction: discord.Interaction):
     embed.add_field(name="/say", value="Make Fujisaki say something!", inline=False)
     embed.add_field(name="/throw", value="Make Fujisaki throw someone!", inline=False)
     embed.add_field(name="/greet", value="Make Fujisaki greet someone!", inline=False)
+    embed.add_field(name="/wruff", value="Make Fujisaki wruff!", inline=False)
+    embed.add_field(name="/eight-ball", value="Ask the magic eight ball a question!", inline=False)
 
     embed.set_footer(text="Made with <3 by Kiki :3")
 
@@ -183,7 +185,6 @@ async def greet(interaction: discord.Interaction, target: discord.Member):
     ]
     await interaction.response.send_message(random.choice(greet_responses))
 
-
 @bot.tree.command(name="wruff", description="Make Fujisaki wruff!")
 async def wruff(interaction: discord.Interaction):
     if not is_allowed_channel(interaction.channel_id):
@@ -219,6 +220,39 @@ async def sing(interaction: discord.Interaction):
         "🎤 *clears throat* ...meow meow meow meow~ :3",
     ]
     await interaction.response.send_message(random.choice(sing_responses))
+
+@bot.tree.command(name="eight-ball", description="Ask the magic eight ball a question!")
+@app_commands.describe(question="Type your question for the magic eight ball")
+async def eight_ball(interaction: discord.Interaction, question: str):
+    if not is_allowed_channel(interaction.channel_id):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    eight_ball_responses = [
+        "It is certain.",
+        "It is decidedly so.",
+        "Without a doubt.",
+        "Yes – definitely.",
+        "You may rely on it.",
+        "As I see it, yes.",
+        "Most likely.",
+        "Outlook good.",
+        "Yes.",
+        "Signs point to yes.",
+        "Reply hazy, try again.",
+        "Ask again later.",
+        "Better not tell you now.",
+        "Cannot predict now.",
+        "Concentrate and ask again.",
+        "Don't count on it.",
+        "My reply is no.",
+        "My sources say no.",
+        "Outlook not so good.",
+        "Very doubtful."
+    ]
+    await interaction.response.send_message(f"🎱 {random.choice(eight_ball_responses)}")
 
 # _____________________________________________________________________________________________
 # End of commands
