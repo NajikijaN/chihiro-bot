@@ -70,6 +70,66 @@ async def chihiro(interaction: discord.Interaction):
     image_path = os.path.join(_script_dir, random.choice(chihiro_images))
     await interaction.response.send_message(file=discord.File(image_path))
 
+@bot.tree.command(name="hug", description="Give Fujisaki a hug!")
+async def hug(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    hug_responses = [
+        "Fujisaki gives you a big hug! :3",
+        "*hugs* I love hugs! :3",
+        "Aww, I needed that hug! :3",
+        "*wraps arms around you* :3",
+    ]
+    await interaction.response.send_message(random.choice(hug_responses))
+
+@bot.tree.command(name="pat", description="Pat Fujisaki on the head!")
+async def pat(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    pat_responses = [
+        "Fujisaki purrs happily as you pat her head! :3",
+        "*purrs* I love head pats! :3",
+        "Aww, that feels nice! :3",
+        "*tilts head up for more pats* :3",
+    ]
+    await interaction.response.send_message(random.choice(pat_responses))
+
+@bot.tree.command(name="cuddle", description="Cuddle with Fujisaki!")
+async def cuddle(interaction: discord.Interaction):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    cuddle_responses = [
+        "Fujisaki cuddles up to you! :3",
+        "*cuddles* I love cuddling! :3",
+        "Aww, that feels so cozy! :3",
+        "*snuggles close* :3",
+    ]
+    await interaction.response.send_message(random.choice(cuddle_responses))
+
+@bot.tree.command(name="profile_picture", description="Show the mentions profile picture!")
+@app_commands.describe(user="Mention the user whose profile picture you want to see")
+async def profile_picture(interaction: discord.Interaction, user: discord.Member):
+    if not is_allowed_channel(interaction):
+        await interaction.response.send_message(
+            f"Use this command in {allowed_channels_text()}.",
+            ephemeral=True
+        )
+        return
+    await interaction.response.send_message(user.avatar.url)
+
+
 @bot.tree.command(name="ily", description="Tell Fujisaki you love her!")
 async def i_love_you(interaction: discord.Interaction):
     if not is_allowed_channel(interaction):
