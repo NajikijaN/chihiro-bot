@@ -252,7 +252,7 @@ async def eight_ball(interaction: discord.Interaction, question: str):
         "Outlook not so good.",
         "Very doubtful."
     ]
-    await interaction.response.send_message(f"🎱 {random.choice(eight_ball_responses)}")
+    await interaction.response.send_message(f"{question} \n                                            🎱 {random.choice(eight_ball_responses)}")
 
 # _____________________________________________________________________________________________
 # End of commands
