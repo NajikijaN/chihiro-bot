@@ -127,7 +127,13 @@ async def profile_picture(interaction: discord.Interaction, user: discord.Member
             ephemeral=True
         )
         return
-    await interaction.response.send_message(user.avatar.url)
+    avatar_url = user.display_avatar.url
+    embed = discord.Embed(
+        title=f"{user.display_name}'s Profile Picture",
+        color=discord.Color.blue()
+    )
+    embed.set_image(url=avatar_url)
+    await interaction.response.send_message(embed=embed)
 
 
 @bot.tree.command(name="ily", description="Tell Fujisaki you love her!")
